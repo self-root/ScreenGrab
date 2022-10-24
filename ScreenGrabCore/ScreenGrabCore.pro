@@ -53,3 +53,5 @@ else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/dependencies/leptonica_
 
 INCLUDEPATH += $$PWD/dependencies/leptonica_x64-windows/include
 DEPENDPATH += $$PWD/dependencies/leptonica_x64-windows/include
+
+LIBS += -ltesseract

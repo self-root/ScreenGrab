@@ -1,3 +1,7 @@
+/**
+ * A file containing some utility functions used in the main program
+ * */
+
 #ifndef UTILS_H
 #define UTILS_H
 
@@ -26,6 +30,12 @@ Q_GLOBAL_STATIC(QString, configPath, "/ScreenGrab/")
 class Utils
 {
 public:
+    /**
+     * @brief saveImage This fuction is not used
+     * @param initial
+     * @param target
+     * @return
+     */
     static bool saveImage(const QString &initial, const QString &target)
     {
         if (QFile::copy(initial, target))
@@ -37,18 +47,30 @@ public:
 
     }
 
+    /**
+     * @brief pictureDir Get the picture directory location
+     * @return The path is a QString
+     */
     static QString pictureDir()
     {
         auto paths = QStandardPaths::standardLocations(QStandardPaths::PicturesLocation);
         return paths.first();
     }
 
+    /**
+     * @brief homePath Get home directory path
+     * @return The directory path in a QString
+     */
     static QString homePath()
     {
         auto p_ = QStandardPaths::standardLocations(QStandardPaths::HomeLocation);
         return p_.first();
     }
 
+    /**
+     * @brief imageDefaultName make default name for the picture
+     * @return a QString containing the imgage name in form of path_to_picture_dir/ScreenGrab dd-MM-yy hh-mm-ss
+     */
     static QString imageDefaultName()
     {
         auto filePath = pictureDir() + "/ScreenGrab ";
@@ -58,12 +80,15 @@ public:
         return filePath;
     }
 
+    /**
+     * @brief makeConfigPaths Create the application folder and and the
+     * tesseract lang model folder if not exixts
+     */
     static void makeConfigPaths()
     {
         QDir config(appConfigPath());
         QDir model(modelPath());
-        //qDebug() << "Making path: " << appConfigPath();
-        //qDebug() << "Making path: " << model.path();
+
         if (!config.exists())
         {
             config.mkpath(appConfigPath());
@@ -71,11 +96,13 @@ public:
 
         if (!model.exists())
         {
-            qDebug() << "Making path: " << model.path();
             model.mkpath(modelPath());
         }
     }
-
+    /**
+     * @brief appConfigPath Make an App config path based on the operating system
+     * @return Path to the app config path
+     */
     static QString appConfigPath()
     {
 #ifdef __linux__
@@ -87,11 +114,20 @@ public:
         return paths;
     }
 
+    /**
+     * @brief modelPath Make the path to the tesseract language models
+     * @return The QString path to the tesseract model
+     */
     static QString modelPath()
     {
         return appConfigPath() + "models/";
     }
 
+    /**
+     * @brief getLanguages Get all saved language model from the app.json config path
+     *
+     * @return A QJsonArray containing the lanquage names
+     */
     static QJsonArray getLanguages()
     {
         QFile file(appConfigPath() + "app.json");
@@ -106,6 +142,12 @@ public:
 
         return QJsonArray();
     }
+
+    /**
+     * @brief writeSetting: Save settings to the app.json config file.
+     * Note: The app.json content will be replaced by the new content
+     * @param setting a QJsonObject containing the setting to be saved
+     */
     static void writeSetting(const QJsonObject &setting)
     {
         QFile file(appConfigPath() + "app.json");
@@ -117,6 +159,13 @@ public:
             file.close();
         }
     }
+
+    /**
+     * @brief saveTesseractModel Save tesseract language model provided on the argument and copy it to the app direcotry file(ScreenGrab/models).
+     * Split the file name to get the name of the lang model(ex: en.traineddata -> en) and return it.
+     * @param modelPath_ the path to the tesseract trained data to be saved
+     * @return The lang name
+     */
     static QString saveTesseractModel(const std::filesystem::path &modelPath_)
     {
         QString destination = modelPath() + QString::fromStdString(modelPath_.filename().string());
@@ -126,6 +175,10 @@ public:
         return splitted.at(0);
     }
 
+    /**
+     * @brief getSettings Simply ready the app.json app config file and return its content
+     * @return QJsonObject containing the content of the app.json
+     */
     static QJsonObject getSettings()
     {
         QFile file(appConfigPath() + "app.json");
@@ -140,6 +193,13 @@ public:
         }
         return QJsonObject();
     }
+
+    /**
+     * @brief addLang Add new language model to the app.json config file
+     * @param modelPath Path to the tesseract trained data to be saved
+     * @param langName Name of th language, for the config file
+     * @return Return the lang name (en.traineddata --> en)
+     */
     static QString addLang(const std::filesystem::path &modelPath, const QString &langName)
     {
 
@@ -154,6 +214,10 @@ public:
         return lang;
     }
 
+    /**
+     * @brief removeLang Remove a lang model from the config file by providing an new QJsonArray tha contains the list of all lang model
+     * @param models QJsonArray tha contains the list of all lang model withou the one that should be removed
+     */
     static void removeLang(const QJsonArray &models)
     {
         QJsonObject settings = getSettings();

@@ -9,6 +9,9 @@
 
 class QSqlDatabase;
 
+/**
+ * A class that poses as an API to read and write data from the database
+ */
 class SCREENGRABCORE_EXPORT ImageDao
 {
 public:

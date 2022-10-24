@@ -30,16 +30,50 @@ private:
 
 
 signals:
+    /**
+     * @brief selection: Signal emited to start the screen selection capture
+     */
     void selection();
+    /**
+     * @brief captureScreen: Signal emitted to start to capture the whole screen
+     */
     void captureScreen();
+    /**
+     * @brief imageView: signal emitted the an image image is ready to be displayed
+     */
     void imageView();
+    /**
+     * @brief startExtraction: Emited to start the image text extraction
+     * @param langModel: The model to be used
+     */
     void startExtraction(const QString &langModel);
+    /**
+     * @brief extractionStatusChanged: Emitted when a text extraction has started or stoped
+     */
     void extractionStatusChanged();
 
 public slots:
+    /**
+     * @brief onCaptured: Handle image after its capture
+     * @param img
+     */
     void onCaptured(QImage &img);
+
+    /**
+     * @brief onImageSelected: Handle image afte it was selected from disc
+     * @param imgPath
+     */
     void onImageSelected(const QUrl &imgPath);
+
+    /**
+     * @brief onSave: Save image to a new file
+     * @param fileName
+     */
     void onSave(const QUrl &fileName);
+
+    /**
+     * @brief onSave: Update the existing image
+     */
     void onSave();
     QString imageDefaultName();
     QString pictureFolder();
