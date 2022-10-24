@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/">
+        <file alias="mainUi.qml">qmlui/mainUi.qml</file>
+        <file alias="Recent.qml">qmlui/Recent.qml</file>
+        <file alias="ImageView.qml">qmlui/ImageView.qml</file>
+        <file>Setting.qml</file>
+        <file>About.qml</file>
+    </qresource>
+    <qresource prefix="/components">
+        <file alias="MenuButton.qml">qmlui/components/MenuButton.qml</file>
+    </qresource>
+</RCC>
