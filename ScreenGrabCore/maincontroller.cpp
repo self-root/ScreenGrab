@@ -48,8 +48,9 @@ void MainController::onCaptured(QImage &img)
     imageProvider->setImage(img);
     Image::clear(mImage);
     mImage->setImagePath("newimage");
-    emit startExtraction(mLangModel);
+
     emit imageView();
+    emit startExtraction(mLangModel);
 }
 
 void MainController::onImageSelected(const QUrl &imgPath)

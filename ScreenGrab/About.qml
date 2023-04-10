@@ -29,7 +29,7 @@ Item {
             cursorDelegate: Rectangle{
                 visible: aboutText_.cursorVisible
             }
-
+            color: "black"
             text: "<h3>ScreenGrab</h3>" + mainController.version() + "<br><p>ScreenGrab is an OCR and screen capture program for Deskdop</p><br><p>This program comes with absolutely no warranty.
 See the <a href='https://www.gnu.org/licenses/old-licenses/gpl-2.0.html'>GNU General Public License, version 2 or later</a> for details.</p><p>Created by <a href='mailto:ivanoscar@outlook.fr'>VAOHITA Ivan Oscar</a></p>"
             onLinkActivated:{

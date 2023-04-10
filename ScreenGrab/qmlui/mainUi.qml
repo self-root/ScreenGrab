@@ -75,7 +75,7 @@ Item {
             MenuButton{
                 id: setting
                 iconText: "\uf1de"
-                labelText: "Sttings"
+                labelText: "Settings"
                 onClicked: stackView.push("Setting.qml")
             }
 
