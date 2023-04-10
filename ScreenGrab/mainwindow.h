@@ -10,6 +10,8 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
+class SelectionScreen;
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -22,10 +24,12 @@ private:
     Ui::MainWindow *ui;
     MainController *mainController;
     ResultTextViewController *resultTextController;
+    QList<SelectionScreen*> selectionScreens;
 
 private slots:
     void startSelection();
     void onCaptureScreen();
     void capture();
+    void closeScreens();
 };
 #endif // MAINWINDOW_H

@@ -11,15 +11,23 @@ Page {
     header: Rectangle{
         id: header
         height: 42
-        color: "#303030"
-        border.color: "#3a86ff"
+        color: "#3e3f40"
+        //border.color: "#3a86ff"
         radius: 3
 
         Label{
             anchors.centerIn: parent
-            text: "Recent"
+            text: "Saved"
             font.pixelSize: 16
             color: "white"
+            font.bold: true
+        }
+        Rectangle{
+            anchors.bottom: parent.bottom
+            anchors.left: parent.left
+            anchors.right: parent.right
+            color: "#3a86ff"
+            height: 2
         }
     }
 
@@ -56,7 +64,7 @@ Page {
                         }
 
                         Text {
-                            text: imageDate
+                            text: Qt.formatDateTime(imageDate, "dd MMM yyyy - hh:mm:s")
                             wrapMode: Text.Wrap
                             color: "white"
                         }

@@ -16,6 +16,7 @@ SelectionScreen::SelectionScreen(QWidget *parent)
 void SelectionScreen::setCaptureScreen(QScreen *screen)
 {
     setScreen(screen);
+    move(screen->geometry().x(), screen->geometry().y());
 }
 
 void SelectionScreen::mousePressEvent(QMouseEvent *event)
@@ -63,6 +64,15 @@ void SelectionScreen::keyPressEvent(QKeyEvent *event)
 void SelectionScreen::capture(int w, int h)
 {
     QPixmap image = this->screen()->grabWindow(0, origin.x(), origin.y(), w, h);
-    QImage img = image.toImage();
-    emit captured(img);
+
+    if (image.width() <= 2 or image.height() <= 2)
+    {
+        this->close();
+        emit abort();
+    }
+    else {
+        QImage img = image.toImage();
+        emit captured(img);
+    }
+
 }

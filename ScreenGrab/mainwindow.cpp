@@ -42,13 +42,23 @@ MainWindow::~MainWindow()
 void MainWindow::startSelection()
 {
     qDebug() << "Start selection";
-    SelectionScreen *selectionScreen = new SelectionScreen(this);
-    connect(selectionScreen, &SelectionScreen::captured, mainController, &MainController::onCaptured);
-    connect(selectionScreen, &SelectionScreen::captured, selectionScreen, &QObject::deleteLater);
-    connect(selectionScreen, &SelectionScreen::captured, this, &MainWindow::show);
-    connect(selectionScreen, &SelectionScreen::abort, this, &MainWindow::show);
 
-    selectionScreen->show();
+    QList<QScreen*> screens = QApplication::screens();
+    for (auto s : screens)
+    {
+        qDebug() << "Screen: " << s->geometry() << " Name: " << s->name();
+        SelectionScreen *selectionScreen = new SelectionScreen(this);
+        selectionScreen->setCaptureScreen(s);
+        connect(selectionScreen, &SelectionScreen::captured, mainController, &MainController::onCaptured);
+        connect(selectionScreen, &SelectionScreen::captured, selectionScreen, &QObject::deleteLater);
+        connect(selectionScreen, &SelectionScreen::captured, this, &MainWindow::show);
+        connect(selectionScreen, &SelectionScreen::abort, this, &MainWindow::show);
+        connect(selectionScreen, &SelectionScreen::captured, this, &MainWindow::closeScreens);
+        connect(selectionScreen, &SelectionScreen::abort, this, &MainWindow::closeScreens);
+        selectionScreens.append(selectionScreen);
+        selectionScreen->show();
+    }
+
 }
 
 void MainWindow::onCaptureScreen()
@@ -62,5 +72,19 @@ void MainWindow::onCaptureScreen()
 void MainWindow::capture()
 {
 
+}
+
+void MainWindow::closeScreens()
+{
+    for (auto scr : selectionScreens)
+    {
+        if (scr != nullptr)
+        {
+            scr->close();
+            scr->deleteLater();
+        }
+
+    }
+    selectionScreens.clear();
 }
 
